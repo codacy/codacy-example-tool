@@ -1,16 +1,20 @@
 # Codacy Example Tool [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7622fdf861c34d69971a8b04aca65fef)](https://www.codacy.com/manual/Codacy/codacy-example-tool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/codacy-example-tool&amp;utm_campaign=Badge_Grade) [![Build Status](https://circleci.com/gh/codacy/codacy-example-tool.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/codacy/codacy-example-tool)
 
-Docker engine example for a codacy tool.
+Docker engine example for a Codacy tool.
 
-This tool is an example and test tool for Codacy.
+This repository is an example of a tool and has the instructions to develop and 
+test a [Codacy Tool](#what-is-a-codacy-tool).
 
 ## Documentation
 
 ### What is a Codacy tool
 
-A codacy tool is a docker container running a wrapper around linters with
-codacy output standards. The tool provides the results through the standard
-output using our format.
+A Codacy Tool is a Docker-based container that wraps linters or tools, ingesting 
+their result and outputting a standardised json document that can be ingested by 
+Codacy. 
+The accepted output format can be found at [Output format](#output-format) section.
+
+As input, the tool accepts a configuration file, [.codacyrc](#structure).
 
 ### How to integrate an external analysis tool on Codacy
 
@@ -25,8 +29,8 @@ to start your own. You are free to modify and use it for your own tools.
 
 #### Structure
 
-* To run the tool we provide the configuration file, `/.codacyrc`, with the
-  language to run and optional parameters your tool might need.
+* In order to run the tool, it's necessary to include a configuration file 
+[`/.codacyrc`](#structure-of-the-codacyrc-file), containing information about the language and potential additional parameters.
 * The source code to be analysed will be located in `/src`, meaning that when
   provided in the configuration, the file paths are relative to `/src`.
 
@@ -66,31 +70,35 @@ This file has:
 }
 ```
 
-##### Behavior of the configuration file
+##### Behavior of the configuration file 
 
-Regarding the configuration file, the tool should have different behaviours for
+The tool parses the configuration file provided and uses it to define its own behaviour. 
+This configuration file is the way to specify which source files to analyse and 
+which patterns to include in that analysis.
+
+Depending on the configuration, the tool should have different behaviours for
 the following situations:
 
-* If `/.codacyrc` exists and has files and patterns, use them to run.
-* If `/.codacyrc` exists and only has patterns and no files, use the patterns to
-  invoke the tool for all files from /src (files should be searched recursively
-  for all folders in /src).
-* If `/.codacyrc` exists and has only files and no patterns, run only for those
-  files and look for the tool's native configuration file, if the tool supports
-  it.
-* If `/.codacyrc` does not exist or any of its contents (files or patterns) is
-  not available, you should invoke the tool for all files from /src (files
-  should be searched recursively for all folders in /src) and check them with
-  the tool's native configuration file, if it is supported and if it exists.
-  Otherwise, run the tool with the default patterns.
+* If `/.codacyrc` exists:
+
+  * Patterns defined and **no** files -> use the patterns to
+  invoke the tool for all source files inside `/src`
+
+  * Files defined and **no** patterns -> run tool's default configuration file on the source files specified
+
+  * Patterns and files defined -> run tool using patterns specified on the source files passed
+
+  * Patterns and files **not** specified -> run the tool for all source files on `/src` using the tool's native configuration or with the default patterns (if native configuration does not exist)
+
+* If `/.codacyrc` does not exist, run the tool for all source files on `/src` using the tool's native configuration or with the default patterns (if native configuration does not exist).
+
 * If `/.codacyrc` fails to be parsed, throw an error.
 
 ##### General tool behavior
 
 **Exit codes**:
 
-* The exit codes can be different, depending if the tool invocation is
-  successful or not:
+* The exit codes are different, depending on the tool invocation is successful or not:
   * **0**: The tool executed successfully :tada:
   * **1**: An unknown error occurred while running the tool :cold_sweat:
   * **2**: Execution timeout :alarm_clock:
@@ -102,6 +110,28 @@ the following situations:
 * To configure a different timeout for the tool, you have to set the environment
   variable `TIMEOUT` when invoking the docker, setting it with values like
   `10 seconds`, `30 minutes` or `2 hours`.
+
+#### Output format
+
+After you have your results from the tool, you should print them 
+to the standard output, one per line:
+
+- filename: file where the issue was found
+- message: issue message returned by the linter
+- patternId: pattern the issue corresponds to
+- line: line where the issue was found
+
+```
+{
+    "filename":"codacy/core/test.js",
+    "message":"found this in your code",
+    "patternId":"latedef",
+    "line":2
+}
+```
+
+> The filename should not be the absolute path (not include the `/src/`)
+> `/src/codacy/core/test.js` should be returned as `codacy/core/test.js`
 
 #### Setup
 
@@ -203,25 +233,25 @@ In order to provide more details you can create:
 
 For level types we have:
 
-* Error
-* Warning
-* Info
+* Error - High priority issues. These issues show the code that is very susceptible to problems.
+* Warning - You should be careful abou these issues as they are based on code standards and conventions.
+* Info - The least critical issue type.
 
 For category types we have:
 
-* ErrorProne
-* CodeStyle
-* Complexity
-* UnusedCode
-* Security
-* Compatibility
-* Performance
-* Documentation
+* ErrorProne - Code that may hide bugs.
+* CodeStyle - Code formatting and syntax problems.
+* Complexity - Code that is highly complex and that should be refactored.
+* UnusedCode - Code that is never used
+* Security - Code that may have security issues
+* Compatibility - Compatibility problems across different versions (mainly for frontend code)
+* Performance - Code that has performance problems
+* Documentation - Methods and classes that do not have the correct comment annotations
 * BestPractice
 
 ##### Description structure
 
-The documentation description is optional. So this could be skipped, but try as much as possible adding them.
+The documentation description is optional but must be added as much as possible.
 
 In the `description.json` you define the title for the pattern, brief description,
 time to fix (in minutes), and also a description of the parameters in the
@@ -307,7 +337,7 @@ docker run -t \
 **Docker restrictions**:
 
 * Docker image size should not exceed 500MB
-* Docker should contain a non-root user named docker with UID/GID 2004
+* Docker should contain a non-root user named docker with UID/GID 2004, associated with a docker group
 * All the source code of the docker must be public
 * The docker base must officially be supported on DockerHub
 * Your docker must be provided in a repository through a public git host (ex:
