@@ -142,7 +142,7 @@ to the standard output, one per line:
 1. Write the docker file that will run the tool.
     * It must have a binary entry point without any parameters.
 
-2. Write a patterns.json with the configuration of your tool.
+2. Write a patterns.json ([schema](schemas/patterns_json_schema.json)) with the configuration of your tool.
     * This file must be located on /docs/patterns.json.
       * **name:** Unique identifier of the tool (lower-case letters without
         spaces)
@@ -181,7 +181,7 @@ to the standard output, one per line:
 
   You can write the code in any language you want but, you have to invoke the
   tool according to the configuration. After you have your results from the
-  tool, you should print them to the standard output in our Result format, one
+  tool, you should print them to the standard output in our Result format ([schema](schemas/output_schema.json)), one
   result per line.
 
 * The filename should **not** include the prefix "/src/". Example:
@@ -253,7 +253,7 @@ For category types we have:
 
 The documentation description is optional but must be added as much as possible.
 
-In the `description.json` you define the title for the pattern, brief description,
+In the `description.json` ([schema](schemas/description_json_schema.json)) you define the title for the pattern, brief description,
 time to fix (in minutes), and also a description of the parameters in the
 following format:
 

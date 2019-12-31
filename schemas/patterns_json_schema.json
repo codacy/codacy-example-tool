@@ -1,0 +1,118 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/root.json",
+    "type": "object",
+    "title": "The Root Schema",
+    "required": [
+        "name",
+        "version",
+        "patterns"
+    ],
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "The Name Schema",
+            "default": "",
+            "examples": [
+                "jshint"
+            ],
+            "pattern": "^(.*)$"
+        },
+        "version": {
+            "$id": "#/properties/version",
+            "type": "string",
+            "title": "The Version Schema",
+            "default": "",
+            "examples": [
+                "1.2.3"
+            ],
+            "pattern": "^(.*)$"
+        },
+        "patterns": {
+            "$id": "#/properties/patterns",
+            "type": "array",
+            "title": "The Patterns Schema",
+            "items": {
+                "$id": "#/properties/patterns/items",
+                "type": "object",
+                "title": "The Items Schema",
+                "required": [
+                    "patternId",
+                    "category",
+                    "parameters",
+                    "level"
+                ],
+                "properties": {
+                    "patternId": {
+                        "$id": "#/properties/patterns/items/properties/patternId",
+                        "type": "string",
+                        "title": "The Patternid Schema",
+                        "default": "",
+                        "examples": [
+                            "latedef"
+                        ],
+                        "pattern": "^(.*)$"
+                    },
+                    "category": {
+                        "$id": "#/properties/patterns/items/properties/category",
+                        "type": "string",
+                        "title": "The Category Schema",
+                        "default": "",
+                        "examples": [
+                            "ErrorProne"
+                        ],
+                        "pattern": "^(.*)$"
+                    },
+                    "parameters": {
+                        "$id": "#/properties/patterns/items/properties/parameters",
+                        "type": "array",
+                        "title": "The Parameters Schema",
+                        "items": {
+                            "$id": "#/properties/patterns/items/properties/parameters/items",
+                            "type": "object",
+                            "title": "The Items Schema",
+                            "required": [
+                                "name",
+                                "default"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "$id": "#/properties/patterns/items/properties/parameters/items/properties/name",
+                                    "type": "string",
+                                    "title": "The Name Schema",
+                                    "default": "",
+                                    "examples": [
+                                        "latedef"
+                                    ],
+                                    "pattern": "^(.*)$"
+                                },
+                                "default": {
+                                    "$id": "#/properties/patterns/items/properties/parameters/items/properties/default",
+                                    "type": "string",
+                                    "title": "The Default Schema",
+                                    "default": "",
+                                    "examples": [
+                                        "nofunc"
+                                    ],
+                                    "pattern": "^(.*)$"
+                                }
+                            }
+                        }
+                    },
+                    "level": {
+                        "$id": "#/properties/patterns/items/properties/level",
+                        "type": "string",
+                        "title": "The Level Schema",
+                        "default": "",
+                        "examples": [
+                            "Warning"
+                        ],
+                        "pattern": "^(.*)$"
+                    }
+                }
+            }
+        }
+    }
+}
