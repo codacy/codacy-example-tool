@@ -14,7 +14,7 @@ their result and outputting a standardised json document that can be ingested by
 Codacy. 
 The accepted output format can be found at [Output format](#output-format) section.
 
-As input, the tool accepts a configuration file, [.codacyrc](#structure).
+As input the tool accepts a configuration file, [.codacyrc](#structure).
 
 ### How to integrate an external analysis tool on Codacy
 
