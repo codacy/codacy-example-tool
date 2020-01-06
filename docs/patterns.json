@@ -1,0 +1,17 @@
+{
+  "name":"dummy",
+  "version": "1.0.0",
+  "patterns":[
+    {
+      "patternId": "foobar",
+      "category": "ErrorProne",
+      "parameters": [
+        {
+          "name": "value",
+          "default": ""
+        }
+      ],
+      "level": "Info"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/root.json",
+    "type": "object",
+    "title": "The Root Schema",
+    "required": [
+        "filename",
+        "complexity",
+        "loc",
+        "cloc",
+        "nrMethods",
+        "nrClasses",
+        "lineComplexities"
+    ],
+    "properties": {
+        "filename": {
+            "$id": "#/properties/filename",
+            "type": "string",
+            "title": "The Filename Schema",
+            "default": "",
+            "examples": [
+                "path/to/my/file1.scala"
+            ],
+            "pattern": "^(.*)$"
+        },
+        "complexity": {
+            "$id": "#/properties/complexity",
+            "type": "integer",
+            "title": "The Complexity Schema",
+            "default": 0,
+            "examples": [
+                1
+            ]
+        },
+        "loc": {
+            "$id": "#/properties/loc",
+            "type": "integer",
+            "title": "The Loc Schema",
+            "default": 0,
+            "examples": [
+                300
+            ]
+        },
+        "cloc": {
+            "$id": "#/properties/cloc",
+            "type": "integer",
+            "title": "The Cloc Schema",
+            "default": 0,
+            "examples": [
+                320
+            ]
+        },
+        "nrMethods": {
+            "$id": "#/properties/nrMethods",
+            "type": "integer",
+            "title": "The Nrmethods Schema",
+            "default": 0,
+            "examples": [
+                20
+            ]
+        },
+        "nrClasses": {
+            "$id": "#/properties/nrClasses",
+            "type": "integer",
+            "title": "The Nrclasses Schema",
+            "default": 0,
+            "examples": [
+                2
+            ]
+        },
+        "lineComplexities": {
+            "$id": "#/properties/lineComplexities",
+            "type": "array",
+            "title": "The Linecomplexities Schema",
+            "items": {
+                "$id": "#/properties/lineComplexities/items",
+                "type": "object",
+                "title": "The Items Schema",
+                "required": [
+                    "line",
+                    "value"
+                ],
+                "properties": {
+                    "line": {
+                        "$id": "#/properties/lineComplexities/items/properties/line",
+                        "type": "integer",
+                        "title": "The Line Schema",
+                        "default": 0,
+                        "examples": [
+                            2
+                        ]
+                    },
+                    "value": {
+                        "$id": "#/properties/lineComplexities/items/properties/value",
+                        "type": "integer",
+                        "title": "The Value Schema",
+                        "default": 0,
+                        "examples": [
+                            3
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
