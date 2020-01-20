@@ -108,8 +108,8 @@ the following situations:
 * To run the tool in debug mode, so you can have more detailed logs, you need to
   set the environment variable `DEBUG` to `true` when invoking the docker.
 * To configure a different timeout for the tool, you have to set the environment
-  variable `TIMEOUT` when invoking the docker, setting it with values like
-  `10 seconds`, `30 minutes` or `2 hours`.
+  variable `TIMEOUT_SECONDS` when you run the docker image, setting it with values
+  like `10` or `1800` (30 minutes).
 
 #### Output format
 
