@@ -73,6 +73,8 @@ function analyze_file {
       elif [[ "$output" != "" ]]; then
         report_error "$file" "$output"
       fi
+    else
+      exit 1
     fi
   else
     echo "{\"filename\":\"$final_file\",\"message\":\"could not parse the file\"}"
