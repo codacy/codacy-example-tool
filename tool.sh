@@ -74,6 +74,7 @@ function analyze_file {
         report_error "$file" "$output"
       fi
     else
+      echo "Pattern not found"
       exit 1
     fi
   else
