@@ -25,7 +25,7 @@ if [ -f /.codacyrc ]; then
 
   codacy_files=$(jq -cer '.files | .[]' <<< "$codacyrc_file")
   codacy_patterns="$(jq -cer ".tools | .[] | select(.name==\"dummy\") | .patterns | .[].patternId" <<< "$codacyrc_file")"
-  codacy_foobar_parameter="$(jq -cer ".tools | .[] | select(.name==\"dummy\") | .patterns | .[].parameters | .[] | select(.name==\"value\") | .value" <<< "$codacyrc_file")"
+  codacy_foobar_parameter="$(jq -cer ".tools | .[] | select(.name==\"dummy\") | .patterns | .[].parameters | select(. != null) | .[] | select(.name==\"value\") | .value" <<< "$codacyrc_file")"
 
   if [ $? -ne 0 ]; then
     unset codacy_foobar_parameter
