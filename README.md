@@ -155,7 +155,8 @@ to the standard output, one per line:
           * **parameters:** Parameters received by the pattern
             * **name:** Unique identifier of the parameter (lower-case letters
               without spaces)
-            * **default:** Default value of the parameter
+            * **default:** Default value of the parameter. 
+              **The tool must ensure the default value is used when it is not sent on the configuration file.**
 
     ```json
     {
