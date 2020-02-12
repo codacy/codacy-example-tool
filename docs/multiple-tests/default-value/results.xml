@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<checkstyle version="4.3">
+    <file name="foobar.txt">
+        <error source="foobar" line="1" message="found foo" severity="info" />
+    </file>
+    <file name="test.txt">
+        <error source="foobar" line="1" message="found test" severity="info" />
+    </file>
+</checkstyle>
