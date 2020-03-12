@@ -1,4 +1,4 @@
-# Codacy Example Tool [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7622fdf861c34d69971a8b04aca65fef)](https://www.codacy.com/manual/Codacy/codacy-example-tool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/codacy-example-tool&amp;utm_campaign=Badge_Grade) [![Build Status](https://circleci.com/gh/codacy/codacy-example-tool.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/codacy/codacy-example-tool)
+# Codacy Example Tool [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7622fdf861c34d69971a8b04aca65fef)](https://www.codacy.com/gh/codacy/codacy-example-tool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/codacy-example-tool&amp;utm_campaign=Badge_Grade) [![Build Status](https://circleci.com/gh/codacy/codacy-example-tool.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/codacy/codacy-example-tool)
 
 Docker engine example for a Codacy tool.
 
