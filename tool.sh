@@ -78,7 +78,7 @@ function analyze_file {
       exit 1
     fi
   else
-    echo "{\"filename\":\"$final_file\",\"message\":\"could not parse the file\"}"
+    echo "{\"filename\":\"$file\",\"message\":\"could not parse the file\"}"
   fi
 }
 
