@@ -81,14 +81,13 @@ the following situations:
 
 * If `/.codacyrc` exists:
 
-  * Patterns defined and **no** files -> use the patterns to
-  invoke the tool for all source files inside `/src`
+  * Files defined -> run tool on the source files passed (an empty array is still defined).
 
-  * Files defined and **no** patterns -> run tool's default configuration file on the source files specified
+  * Files undefined -> run tool for all source files inside `/src`.
 
-  * Patterns and files defined -> run tool using patterns specified on the source files passed
+  * Patterns defined -> run tool with the defined patterns (an empty array is still defined).
 
-  * Patterns and files **not** specified -> run the tool for all source files on `/src` using the tool's native configuration or with the default patterns (if native configuration does not exist)
+  * Patterns undefined -> run tool with the native configuration file if present, otherwise use the tool default patterns.
 
 * If `/.codacyrc` does not exist, run the tool for all source files on `/src` using the tool's native configuration or with the default patterns (if native configuration does not exist).
 
