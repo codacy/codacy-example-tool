@@ -353,6 +353,39 @@ docker run -t \
 If you have any question or suggestion regarding this guide please contact us at
 support@codacy.com.
 
+## Agent Playbook: Updating This Repository End-to-End
+
+This section is written for an AI coding agent (or a human) that has been asked to "update" this repository. Read it before doing anything, because the usual playbook — bump a wrapped tool's version, regenerate docs, open a PR, watch CI — does **not** apply here in the way it applies to real Codacy tool-engine repos.
+
+### 1. What this repository actually is
+
+`codacy-example-tool` is **not** a production Codacy engine wrapping a real third-party linter. It is a reference/template repo that demonstrates the contract a Codacy tool Docker image must satisfy, aimed at people building a brand-new integration:
+
+- `tool.sh` is a small bash script that implements a fictional "dummy" tool with a single fictional pattern, `foobar` (its "analysis" is: does the file contain the configured string). There is no upstream project called `foobar` or `dummy` to track releases for.
+- `docs/patterns.json` declares `"name": "dummy"`, `"version": "1.0.0"` — a hardcoded placeholder, not a real tool version that has ever been bumped in this repo's history.
+- `docs/description/description.json` and `docs/description/foobar.md` are placeholder documentation for the same fictional pattern.
+- `docs/tests/*` and `docs/multiple-tests/*/*` are fixture files/expected results for the `foobar` example, used to demonstrate `codacy-plugins-test` integration, not to validate real-world lint rules.
+- `Dockerfile` is a minimal Alpine image (`alpine:3.14.2`) plus `jq`, wired up only to run `tool.sh`.
+
+In short: **there is no real wrapped tool whose version could be bumped.** `git log --oneline --all | grep -iE "bump|update|upgrade|version"` on this repo shows only infra-level bumps — CircleCI base image (`ecbf299 bump: Update base image`), the `codacy/base` and `codacy_plugins_test` orbs (`39c2fb8`, `c9c4e2b`), and GitHub Action versions for Jira automation (`472c8a7`). None of them are "bump the linter this engine wraps," because no such linter exists.
+
+### 2. What "updating" this repo can reasonably mean
+
+If guy-in-the-chair (or any agent) is pointed at this repo expecting a version-bump task, the right move is usually to **flag/skip it rather than force a fake bump**, since inventing a version change for the placeholder `dummy`/`foobar` example would misrepresent the repo and could break the very docs it's meant to demonstrate. Legitimate updates instead look like:
+
+- Keeping the example in sync with the current `.codacyrc` contract, output schema, and Docker restrictions described earlier in this README, if Codacy's platform-side conventions change.
+- Bumping infra pinned in `.circleci/config.yml` (the `codacy/base` / `codacy/plugins-test` orb versions) or the `alpine` base image tag in `Dockerfile`, the same way past commits in this repo's history have done.
+- Updating pinned GitHub Actions under `.github/workflows/` (e.g. the Jira automation workflows) when Dependabot/security advisories call for it.
+- Correcting or expanding the documentation/instructions in this README itself if the process for building a new Codacy tool has changed.
+
+If the task description assumes a real wrapped-tool version bump (e.g. "bump patterns.json to match upstream release X.Y.Z"), that assumption does not hold for this repo — say so explicitly and ask for clarification or skip, rather than editing `docs/patterns.json`'s placeholder `"version": "1.0.0"` to something arbitrary.
+
+### 3. CI, if you do make a change
+
+CI is defined in `.circleci/config.yml`: it checks out the repo, builds the Docker image, runs `codacy_plugins_test/run` against the fixtures in `docs/tests` and `docs/multiple-tests`, and (on `master` only) publishes the image and tags a version. There are also GitHub Actions under `.github/workflows/` for Jira issue automation, unrelated to building/testing the tool itself.
+
+**Whatever the change, after pushing and opening/updating a PR, poll the PR's real CI checks (`gh pr checks <pr-url>`) until they all pass — local reasoning about the change is not the finish line.** If a check fails, fetch its actual log, find the root cause, fix it, push again, and re-poll until every check is green or you hit a genuine product decision that needs a human.
+
 ## What is Codacy
 
 [Codacy](https://www.codacy.com/) is an Automated Code Review Tool that monitors
